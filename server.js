@@ -19,8 +19,9 @@ const db = mysql.createConnection({
 })
 
 app.post('/add_store',(req,res)=>{
-    sql = 'INSERT INTO `stores`(`storeName`, `storetype`, `storeDes`, `email`, `pass`, `phone`, `address`) VALUES (?,?,?,?,?,?,?)';
+    sql = 'INSERT INTO `stores`(`logo`,`storeName`, `storetype`, `storeDes`, `email`, `pass`, `phone`, `address`) VALUES (?,?,?,?,?,?,?,?)';
     const values = [
+        req.body.logo,
         req.body.storeName,
         req.body.storeType,
         req.body.storeDes,
@@ -54,8 +55,9 @@ app.get("/get_stores/:storeId", (req, res) => {
 
 app.put("/edit_stores/:storeId", (req, res) => {
     const storeId = req.params.storeId;
-    const sql = "UPDATE `stores` SET `storeName`=?, `storeType`=?, `storeDes`=?, `email`=?, `pass`=?, `phone`=?, `address`=? WHERE `storeId` = ?";
+    const sql = "UPDATE `stores` SET `logo`=?, `storeName`=?, `storeType`=?, `storeDes`=?, `email`=?, `pass`=?, `phone`=?, `address`=? WHERE `storeId` = ?";
     const values = [
+        req.body.logo,
         req.body.storeName,
         req.body.storeType,
         req.body.storeDes,
