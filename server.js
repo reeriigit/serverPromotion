@@ -36,7 +36,7 @@ const upload = multer({ storage: storage })
 app.post('/add_store', upload.single('logo'), (req, res) => {
     const { storeName, storeType, storeDes, email, pass, phone, address } = req.body;
     // Use the file path obtained from Multer
-    const logoFullPath = req.file.path;
+    
     
     // Manipulate the logo path to remove the leading `\images\`
     const logo = req.file.filename;
@@ -81,13 +81,14 @@ app.get("/get_stores/:storeId", (req, res) => {
 
 app.put("/edit_stores/:storeId", upload.single('logo'), (req, res) => {
     const storeId = req.params.storeId;
+    
 
     let logoPath = ""; // Initialize the logoPath
 
     // Check if a new image is provided
     if (req.file) {
         // If a new image is provided, update the logoPath
-        logoPath = req.file.path.replace('public', '');
+        logoPath = req.file.filename;
     }
 
     console.log('Updated image path:', logoPath);  // Log the updated image path
