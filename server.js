@@ -31,35 +31,43 @@ const storage = multer.diskStorage({
     }
   });
 
-const upload = multer({ storage: storage })
+  const upload = multer({ storage: storage });
 
-app.post('/add_store', upload.single('logo'), (req, res) => {
-    const { storeName, storeType, storeDes, email, pass, phone, address } = req.body;
-    // Use the file path obtained from Multer
-    
-    
-    // Manipulate the logo path to remove the leading `\images\`
-    const logo = req.file.filename;
+  app.post('/add_store', upload.single('logo'), (req, res) => {
+      const { storeName, storeType, storeDes, email, pass, phone, address } = req.body;
+  
+      // Check if req.file exists and has a valid filename
+      if (!req.file || !req.file.filename) {
+          return res.status(400).json({ message: 'No valid file uploaded' });
+      }
+  
+      // Use the file path obtained from Multer
+      const logo = req.file.filename;
+  
+      console.log('Uploaded image path:', logo);  // Log the uploaded image path
+  
+      const sql = 'INSERT INTO `stores`(`logo`,`storeName`, `storeType`, `storeDes`, `email`, `pass`, `phone`, `address`) VALUES (?,?,?,?,?,?,?,?)';
+      const values = [
+          logo,
+          storeName,
+          storeType,
+          storeDes,
+          email,
+          pass,
+          phone,
+          address,
+      ];
+  
+      db.query(sql, values, (err, result) => {
+          if (err) {
+              console.error(err);
+              return res.status(500).json({ message: 'Something unexpected has occurred ' + err });
+          }
+          return res.json({ success: "Store added successfully" });
+      });
+  });
+  
 
-    console.log('Uploaded image path:', logo);  // Log the uploaded image path
-
-    const sql = 'INSERT INTO `stores`(`logo`,`storeName`, `storeType`, `storeDes`, `email`, `pass`, `phone`, `address`) VALUES (?,?,?,?,?,?,?,?)';
-    const values = [
-        logo,
-        storeName,
-        storeType,
-        storeDes,
-        email,
-        pass,
-        phone,
-        address,
-    ];
-
-    db.query(sql, values, (err, result) => {
-        if (err) return res.json({ message: 'Something unexpected has occurred ' + err });
-        return res.json({ success: "Store added successfully" });
-    });
-});
 
 
 
