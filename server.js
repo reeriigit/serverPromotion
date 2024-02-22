@@ -62,6 +62,7 @@ app.post('/add_store', upload.single('logo'), (req, res) => {
 });
 
 
+
 app.get("/stores",(req,res)=>{
     const sql = "SELECT * FROM `stores`";
     db.query(sql,(err,result)=>{
@@ -74,6 +75,16 @@ app.get("/get_stores/:storeId", (req, res) => {
     const storeId = req.params.storeId;
     const sql = "SELECT * FROM `stores` WHERE `storeId` = ?";
     db.query(sql, [storeId], (err, result) => {
+        if (err) res.json({ message: "Server Error" });
+        return res.json(result);
+    });
+});
+
+app.get("/get_stores_check/:email/:pass", (req, res) => {
+    const email= req.params.email;
+    const pass = req.params.pass;
+    const sql = "SELECT * FROM `stores` WHERE `email` = ? AND `pass`=?";
+    db.query(sql, [email,pass], (err, result) => {
         if (err) res.json({ message: "Server Error" });
         return res.json(result);
     });
@@ -130,8 +141,38 @@ app.delete("/delete_stores/:storeId", (req, res) => {
         }
     });
 });
+//////////table mulimagestb 
+const uploadmulfile = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/mulimages'); // ระบุโฟลเดอร์ที่จะเก็บรูปภาพ
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+  });
+  
+  const uploadmulimages = multer({ storage: uploadmulfile });
 
+app.post('/add_mulimages', uploadmulimages.array('mulimages', 15), (req, res) => {
+    const { storeId } = req.body;
+    const mulimages = req.files.map(file => file.filename);
+  
+    console.log('Uploaded image paths:', mulimages);
+  
+    const sql = 'INSERT INTO `mulimagestb`(`storeId`, `mulimages`) VALUES (?, ?)';
+    const values = [
+      storeId,
+      mulimages.join(','), // Join the array of image filenames into a comma-separated string
+    ];
+  
+    db.query(sql, values, (err, result) => {
+      if (err) return res.json({ message: 'Something unexpected has occurred ' + err });
+      return res.json({ success: "Images added successfully" });
+    });
+  });
 
+//////////table mulimagestb END 
 
 
 app.listen(port,()=>{
