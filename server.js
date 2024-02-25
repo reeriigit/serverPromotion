@@ -33,6 +33,9 @@ const storage = multer.diskStorage({
 
   const upload = multer({ storage: storage });
 
+
+
+
   app.post('/add_store', upload.single('logo'), (req, res) => {
       const { storeName, storeType, storeDes, email, pass, phone, address } = req.body;
   
@@ -69,6 +72,31 @@ const storage = multer.diskStorage({
   
 
 
+  app.get("/stores_admin", (req, res) => {
+    const sql = "SELECT " +
+        "stores.storeId, " +
+        "stores.logo, " +
+        "stores.storeName, " +
+        "stores.storeType, " +
+        "stores.storeDes, " +
+        "stores.email, " +
+        "stores.pass, " +
+        "stores.phone, " +
+        "stores.address, " +
+        "stores.status, " +
+        "statusdetail.statusName, " +
+        "statusdetail.description " +
+        "FROM stores " +
+        "JOIN statusdetail ON stores.status = statusdetail.statusId";
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: "Server Error" });
+        }
+        return res.json(result);
+    });
+});
 
 
 app.get("/stores",(req,res)=>{
@@ -81,28 +109,63 @@ app.get("/stores",(req,res)=>{
 
 app.get("/get_stores/:storeId", (req, res) => {
     const storeId = req.params.storeId;
-    const sql = "SELECT * FROM `stores` WHERE `storeId` = ?";
+    const sql = `
+        SELECT 
+            stores.storeId,
+            stores.logo,
+            stores.storeName,
+            stores.storeType,
+            stores.storeDes,
+            stores.email,
+            stores.pass,
+            stores.phone,
+            stores.address,
+            stores.status,
+            statusdetail.statusName,
+            statusdetail.description
+        FROM stores
+        JOIN statusdetail ON stores.status = statusdetail.statusId
+        WHERE stores.storeId = ?`;
+    
     db.query(sql, [storeId], (err, result) => {
         if (err) res.json({ message: "Server Error" });
         return res.json(result);
     });
 });
 
+
 app.get("/get_stores_check/:email/:pass", (req, res) => {
-    const email= req.params.email;
+    const email = req.params.email;
     const pass = req.params.pass;
-    const sql = "SELECT * FROM `stores` WHERE `email` = ? AND `pass`=?";
-    db.query(sql, [email,pass], (err, result) => {
+    const sql = `
+        SELECT 
+            stores.storeId,
+            stores.logo,
+            stores.storeName,
+            stores.storeType,
+            stores.storeDes,
+            stores.email,
+            stores.pass,
+            stores.phone,
+            stores.address,
+            stores.status,
+            statusdetail.statusName,
+            statusdetail.description
+        FROM stores
+        JOIN statusdetail ON stores.status = statusdetail.statusId
+        WHERE stores.email = ? AND stores.pass = ?`;
+
+    db.query(sql, [email, pass], (err, result) => {
         if (err) res.json({ message: "Server Error" });
         return res.json(result);
     });
 });
 
+
 app.put("/edit_stores/:storeId", upload.single('logo'), (req, res) => {
     const storeId = req.params.storeId;
-    
 
-    let logoPath = ""; // Initialize the logoPath
+    let logoPath = req.body.logo; // Initialize the logoPath with the existing logo path
 
     // Check if a new image is provided
     if (req.file) {
@@ -112,7 +175,7 @@ app.put("/edit_stores/:storeId", upload.single('logo'), (req, res) => {
 
     console.log('Updated image path:', logoPath);  // Log the updated image path
 
-    const sql = "UPDATE `stores` SET `logo`=?, `storeName`=?, `storeType`=?, `storeDes`=?, `email`=?, `pass`=?, `phone`=?, `address`=? WHERE `storeId` = ?";
+    const sql = "UPDATE `stores` SET `logo`=?, `storeName`=?, `storeType`=?, `storeDes`=?, `email`=?, `pass`=?, `phone`=?, `address`=?, `status`=? WHERE `storeId` = ?";
     const values = [
         logoPath, // Use the updated logoPath
         req.body.storeName,
@@ -122,6 +185,7 @@ app.put("/edit_stores/:storeId", upload.single('logo'), (req, res) => {
         req.body.pass,
         req.body.phone,
         req.body.address,
+        req.body.status,
         storeId
     ];
 
@@ -130,6 +194,7 @@ app.put("/edit_stores/:storeId", upload.single('logo'), (req, res) => {
         return res.json(result);
     });
 });
+
 
 
 app.delete("/delete_stores/:storeId", (req, res) => {
@@ -149,6 +214,11 @@ app.delete("/delete_stores/:storeId", (req, res) => {
         }
     });
 });
+
+
+
+
+
 //////////table mulimagestb 
 const uploadmulfile = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -181,6 +251,10 @@ app.post('/add_mulimages', uploadmulimages.array('mulimages', 15), (req, res) =>
   });
 
 //////////table mulimagestb END 
+
+
+const usersRoute = require('./routes/users'); // Remove the '.js' extension
+app.use(usersRoute);
 
 
 app.listen(port,()=>{
