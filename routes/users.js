@@ -20,11 +20,11 @@ db.connect((err) => {
   console.log('Connected to MySQL database');
 });
 
-router.get("/users/:userId", (req, res) => {
-  const userId = req.params.userId;
+router.get("/users/:user_id", (req, res) => {
+  const user_id = req.params.user_id;
   const sql = "SELECT * FROM `users` WHERE user_id = ?";
   
-  db.query(sql, [userId], (err, result) => {
+  db.query(sql, [user_id], (err, result) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ message: "Server Error" });
@@ -89,5 +89,45 @@ router.post("/login", (req, res) => {
       }
     });
   });
+
+  router.get("/users_check/:username/:password", (req, res) => {
+    const { username, password } = req.params;
+  
+    const sql = `
+      SELECT * FROM users
+      WHERE username = ? AND password = ?
+    `;
+  
+    db.query(sql, [username, password], (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: "Server Error" });
+      }
+      return res.json(result);
+    });
+  });
+  
+  router.put("/edit_user/:user_id", (req, res) => {
+    const user_id = req.params.user_id;
+
+    const sql = "UPDATE `users` SET `username`=?, `email`=?, `password`=?, `full_name`=?, `address`=?, `phone_number`=? WHERE `user_id` = ?";
+    const values = [
+        req.body.username,
+        req.body.email,
+        req.body.password,
+        req.body.full_name,
+        req.body.address,
+        req.body.phone_number,
+        user_id
+    ];
+
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.json({ message: "Server Error" });
+        }
+        return res.json(result);
+    });
+});
+
 
 module.exports = router;
