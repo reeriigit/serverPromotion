@@ -12,14 +12,20 @@ app.use(express.json())
 
 const port = 5000
 
-
-
 const db = mysql.createConnection({
-    host:"localhost",
+    host: "localhost",
     user: "root",
     password: "",
     database: "students"
 })
+
+db.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database:', err);
+    return;
+  }
+  console.log('Connected to MySQL database');
+});
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -31,49 +37,44 @@ const storage = multer.diskStorage({
     }
   });
 
-  const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
+app.post('/add_store', upload.single('logo'), (req, res) => {
+    const {user_id,storeName, storeType, storeDes, email, pass, phone, address } = req.body;
 
+    // Check if req.file exists and has a valid filename
+    if (!req.file || !req.file.filename) {
+        return res.status(400).json({ message: 'No valid file uploaded' });
+    }
 
+    // Use the file path obtained from Multer
+    const logo = req.file.filename;
 
-  app.post('/add_store', upload.single('logo'), (req, res) => {
-      const {user_id,storeName, storeType, storeDes, email, pass, phone, address } = req.body;
-  
-      // Check if req.file exists and has a valid filename
-      if (!req.file || !req.file.filename) {
-          return res.status(400).json({ message: 'No valid file uploaded' });
-      }
-  
-      // Use the file path obtained from Multer
-      const logo = req.file.filename;
-  
-      console.log('Uploaded image path:', logo);  // Log the uploaded image path
-  
-      const sql = 'INSERT INTO `stores`(`user_id`,`logo`,`storeName`, `storeType`, `storeDes`, `email`, `pass`, `phone`, `address`) VALUES (?,?,?,?,?,?,?,?,?)';
-      const values = [
-        user_id,
-          logo,
-          storeName,
-          storeType,
-          storeDes,
-          email,
-          pass,
-          phone,
-          address,
-      ];
-  
-      db.query(sql, values, (err, result) => {
-          if (err) {
-              console.error(err);
-              return res.status(500).json({ message: 'Something unexpected has occurred ' + err });
-          }
-          return res.json({ success: "Store added successfully" });
-      });
-  });
-  
+    console.log('Uploaded image path:', logo);  // Log the uploaded image path
 
+    const sql = 'INSERT INTO `stores`(`user_id`,`logo`,`storeName`, `storeType`, `storeDes`, `email`, `pass`, `phone`, `address`) VALUES (?,?,?,?,?,?,?,?,?)';
+    const values = [
+      user_id,
+        logo,
+        storeName,
+        storeType,
+        storeDes,
+        email,
+        pass,
+        phone,
+        address,
+    ];
 
-  app.get("/stores_admin", (req, res) => {
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Something unexpected has occurred ' + err });
+        }
+        return res.json({ success: "Store added successfully" });
+    });
+});
+
+app.get("/stores_admin", (req, res) => {
     const sql = "SELECT " +
         "stores.storeId, " +
         "stores.logo, " +
@@ -99,11 +100,10 @@ const storage = multer.diskStorage({
     });
 });
 
-
-app.get("/stores",(req,res)=>{
+app.get("/stores", (req, res) => {
     const sql = "SELECT * FROM `stores`";
-    db.query(sql,(err,result)=>{
-        if(err) res.json({message: "Server Error"});
+    db.query(sql, (err, result) => {
+        if (err) res.json({ message: "Server Error" });
         return res.json(result)
     })
 })
@@ -134,7 +134,6 @@ app.get("/get_stores/:storeId", (req, res) => {
     });
 });
 
-
 app.get("/get_stores_check/:user_id", (req, res) => {
     const user_id = req.params.user_id;
     const sql = `
@@ -161,8 +160,6 @@ app.get("/get_stores_check/:user_id", (req, res) => {
         return res.json(result);
     });
 });
-
-
 
 app.put("/edit_stores/:storeId", upload.single('logo'), (req, res) => {
     const storeId = req.params.storeId;
@@ -197,8 +194,6 @@ app.put("/edit_stores/:storeId", upload.single('logo'), (req, res) => {
     });
 });
 
-
-
 app.delete("/delete_stores/:storeId", (req, res) => {
     const storeId = req.params.storeId;
     const sql = "DELETE FROM `stores` WHERE `storeId`=?";
@@ -217,31 +212,19 @@ app.delete("/delete_stores/:storeId", (req, res) => {
     });
 });
 
-
-
-
-
-//////////table mulimagestb 
-
-
-//////////table mulimagestb END 
-
-
-
-
-
-const usersRoute = require('./routes/users'); // Remove the '.js' extension
+// Pass the db connection to the routes
+const usersRoute = require('./routes/users')(db);
 app.use(usersRoute);
 
-const mulimagesRoute = require('./routes/mulimagestb'); // Remove the '.js' extension
+const mulimagesRoute = require('./routes/mulimagestb')(db);
 app.use(mulimagesRoute);
 
-const promotionRoute = require('./routes/promotion'); // Remove the '.js' extension
+const promotionRoute = require('./routes/promotion')(db);
 app.use(promotionRoute);
 
-const producttypeRoute = require('./routes/producttype'); // Remove the '.js' extension
+const producttypeRoute = require('./routes/producttype')(db);
 app.use(producttypeRoute);
 
-app.listen(port,()=>{
+app.listen(port, () => {
     console.log('listening')
-})
+});
