@@ -3,6 +3,7 @@ const mysql = require('mysql')
 const cors = require('cors')
 const multer = require('multer')
 const path = require('path')
+require('dotenv').config()
 
 const app = express()
 
@@ -12,12 +13,14 @@ app.use(express.json())
 
 const port = 5000
 
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "students"
-})
+const db = mysql.createConnection(process.env.DATABASE_URL)
+
+// const db = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "",
+//     database: "students"
+// })
 
 db.connect((err) => {
   if (err) {
