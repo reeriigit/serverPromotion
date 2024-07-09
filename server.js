@@ -13,14 +13,14 @@ app.use(express.json())
 
 const port = 5000
 
-const db = mysql.createConnection(process.env.DATABASE_URL)
+// const db = mysql.createConnection(process.env.DATABASE_URL)
 
-// const db = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "",
-//     database: "students"
-// })
+const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "mytest"
+})
 
 db.connect((err) => {
   if (err) {
@@ -43,7 +43,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post('/add_store', upload.single('logo'), (req, res) => {
-    const {user_id,storeName, storeType, storeDes, email, pass, phone, address } = req.body;
+    const {user_id,storeName, storeType, storeDes, style, province, phone, address } = req.body;
 
     // Check if req.file exists and has a valid filename
     if (!req.file || !req.file.filename) {
@@ -55,15 +55,15 @@ app.post('/add_store', upload.single('logo'), (req, res) => {
 
     console.log('Uploaded image path:', logo);  // Log the uploaded image path
 
-    const sql = 'INSERT INTO `stores`(`user_id`,`logo`,`storeName`, `storeType`, `storeDes`, `email`, `pass`, `phone`, `address`) VALUES (?,?,?,?,?,?,?,?,?)';
+    const sql = 'INSERT INTO `stores`(`user_id`,`logo`,`storeName`, `storeType`, `storeDes`, `style`, `province`, `phone`, `address`) VALUES (?,?,?,?,?,?,?,?,?)';
     const values = [
       user_id,
         logo,
         storeName,
         storeType,
         storeDes,
-        email,
-        pass,
+        style,
+        province,
         phone,
         address,
     ];
@@ -84,8 +84,8 @@ app.get("/stores_admin", (req, res) => {
         "stores.storeName, " +
         "stores.storeType, " +
         "stores.storeDes, " +
-        "stores.email, " +
-        "stores.pass, " +
+        "stores.style, " +
+        "stores.province, " +
         "stores.phone, " +
         "stores.address, " +
         "stores.status, " +
@@ -120,8 +120,8 @@ app.get("/get_stores/:storeId", (req, res) => {
             stores.storeName,
             stores.storeType,
             stores.storeDes,
-            stores.email,
-            stores.pass,
+            stores.style,
+            stores.province,
             stores.phone,
             stores.address,
             stores.status,
@@ -147,8 +147,8 @@ app.get("/get_stores_check/:user_id", (req, res) => {
             stores.storeName,
             stores.storeType,
             stores.storeDes,
-            stores.email,
-            stores.pass,
+            stores.style,
+            stores.province,
             stores.phone,
             stores.address,
             stores.status,
@@ -177,14 +177,14 @@ app.put("/edit_stores/:storeId", upload.single('logo'), (req, res) => {
 
     console.log('Updated image path:', logoPath);  // Log the updated image path
 
-    const sql = "UPDATE `stores` SET `logo`=?, `storeName`=?, `storeType`=?, `storeDes`=?, `email`=?, `pass`=?, `phone`=?, `address`=?, `status`=? WHERE `storeId` = ?";
+    const sql = "UPDATE `stores` SET `logo`=?, `storeName`=?, `storeType`=?, `storeDes`=?, `style`=?, `province`=?, `phone`=?, `address`=?, `status`=? WHERE `storeId` = ?";
     const values = [
         logoPath, // Use the updated logoPath
         req.body.storeName,
         req.body.storeType,
         req.body.storeDes,
-        req.body.email,
-        req.body.pass,
+        req.body.style,
+        req.body.province,
         req.body.phone,
         req.body.address,
         req.body.status,
