@@ -27,14 +27,14 @@ module.exports = (db) => {
   // Insert a new product with images
   // Insert a new product with images
 router.post('/insertProduct', upload.array('images', 10), (req, res) => {
-    const { name, product_type_id, description, price, quantity_in_stock, status_id, promo_id, storeId } = req.body;
+    const { name, product_type_id, description, price, quantity_in_stock, status_id, storeId } = req.body;
     const images = req.files.map(file => file.filename); // Get array of uploaded filenames
   
     const sql = `
-      INSERT INTO product_tb (images, name, product_type_id, description, price, quantity_in_stock, status_id, promo_id, storeId)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      INSERT INTO product_tb (images, name, product_type_id, description, price, quantity_in_stock, status_id, storeId)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   
-    const values = [ JSON.stringify(images),name, product_type_id, description, price, quantity_in_stock, status_id, promo_id, storeId];
+    const values = [ JSON.stringify(images),name, product_type_id, description, price, quantity_in_stock, status_id, storeId];
   
     db.query(sql, values, (error, results) => {
       if (error) {
@@ -58,10 +58,10 @@ router.put('/updateProduct/:product_id', upload.array('images', 10), (req, res) 
   
     const sql = `
       UPDATE product_tb
-      SET name = ?, product_type_id = ?, description = ?, price = ?, quantity_in_stock = ?, status_id = ?, promo_id = ?, storeId = ?, images = ?
+      SET name = ?, product_type_id = ?, description = ?, price = ?, quantity_in_stock = ?, status_id = ?, storeId = ?, images = ?
       WHERE product_id = ?`;
   
-    const values = [name, product_type_id, description, price, quantity_in_stock, status_id, promo_id, storeId, JSON.stringify(images), product_id];
+    const values = [name, product_type_id, description, price, quantity_in_stock, status_id, storeId, JSON.stringify(images), product_id];
   
     db.query(sql, values, (error, results) => {
       if (error) {
@@ -102,7 +102,7 @@ router.get('/get_product/:product_id', (req, res) => {
     const product_id = req.params.product_id;
   
     const sql = `
-      SELECT product_id, images, name, product_type_id, description, price, quantity_in_stock, status_id, promo_id, storeId
+      SELECT product_id, images, name, product_type_id, description, price, quantity_in_stock, status_id, storeId
       FROM product_tb
       WHERE product_id = ?`;
   
@@ -123,7 +123,7 @@ router.get('/products/:storeId', (req, res) => {
     const storeId = req.params.storeId;
   
     const sql = `
-      SELECT product_id, images, name, product_type_id, description, price, quantity_in_stock, status_id, promo_id, storeId
+      SELECT product_id, images, name, product_type_id, description, price, quantity_in_stock, status_id, storeId
       FROM product_tb
       WHERE storeId = ?
       ORDER BY product_id DESC`;

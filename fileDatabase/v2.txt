@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2024 at 09:35 AM
+-- Generation Time: Jul 11, 2024 at 03:16 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `students`
+-- Database: `mytest`
 --
 
 -- --------------------------------------------------------
@@ -28,12 +28,45 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `mulimagestb` (
-  `mulimagesId` int(11) NOT NULL AUTO_INCREMENT,
+  `mulimagesId` int(11) NOT NULL,
   `storeId` int(11) NOT NULL,
-  `mulimages` text NOT NULL,
-  PRIMARY KEY (`mulimagesId`),
-  KEY `storeId` (`storeId`)
+  `mulimages` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mulimagestb`
+--
+
+INSERT INTO `mulimagestb` (`mulimagesId`, `storeId`, `mulimages`) VALUES
+(30, 92, ''),
+(31, 93, 'mulimages-1720422929375-189148848.jpg,mulimages-1720422929391-256816787.jpg'),
+(32, 94, 'mulimages-1720534373238-843007764.jpg,mulimages-1720534373241-820180088.jpg,mulimages-1720534373242-290905511.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_tb`
+--
+
+CREATE TABLE `product_tb` (
+  `product_id` int(11) NOT NULL,
+  `images` text NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `product_type_id` int(11) NOT NULL,
+  `description` text NOT NULL,
+  `price` double NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `storeId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_tb`
+--
+
+INSERT INTO `product_tb` (`product_id`, `images`, `name`, `product_type_id`, `description`, `price`, `quantity_in_stock`, `status_id`, `storeId`) VALUES
+(42, '[\"1720686015836-White and Dark Gray Modern Fashion Designer Resume (1).png\"]', 'อุทยานแห่งชาติ เขตรักษาพันธุ์สัตว์ป่า', 16, 'เป็นบริการเครืองดืมที่ให้บริการ', 55, 100, 1, 93),
+(43, '[\"1720687177296-S__20758565_0.jpg\",\"1720687177319-IMG_1914.jpeg\",\"1720687177322-S__20758567_0.jpg\",\"1720687177344-IMG_1613.jpeg\"]', 'อุทยานแห่งชาติ เขตรักษาพันธุ์สัตว์ป่า', 15, 'เป็นบริการเครืองดืมที่ให้บริการ', 55, 0, 1, 93);
 
 -- --------------------------------------------------------
 
@@ -42,13 +75,22 @@ CREATE TABLE `mulimagestb` (
 --
 
 CREATE TABLE `product_type_tb` (
-  `product_type_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_type_id` int(11) NOT NULL,
   `storeId` int(11) NOT NULL,
   `product_type_name` varchar(255) NOT NULL,
   `product_type_image` text NOT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`product_type_id`)
+  `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_type_tb`
+--
+
+INSERT INTO `product_type_tb` (`product_type_id`, `storeId`, `product_type_name`, `product_type_image`, `description`) VALUES
+(13, 92, 'testdee', '1719993985406-figma.jpg', 'wqadsdad'),
+(14, 93, 'เครื่องดืม', '1720424294405-thai-gov.png', 'น้ำดืม น้ำผลไม้ เเละ อื่นๆ'),
+(15, 93, 'บริการ', '1720627780458-blackpinkall.jpg', 'เป็นบริการเครืองดืมที่ให้บริการ'),
+(16, 93, 'ของกินเล่น', '1720627837576-thai-gov.png', 'ของที่เอาใว้กินเล่นในระหว่างรอจานหลัก');
 
 -- --------------------------------------------------------
 
@@ -57,7 +99,7 @@ CREATE TABLE `product_type_tb` (
 --
 
 CREATE TABLE `promotions_tb` (
-  `promo_id` int(11) NOT NULL AUTO_INCREMENT,
+  `promo_id` int(11) NOT NULL,
   `storeId` int(11) NOT NULL,
   `proimage` text NOT NULL,
   `promo_name` varchar(255) NOT NULL,
@@ -69,12 +111,19 @@ CREATE TABLE `promotions_tb` (
   `amountcon` int(11) NOT NULL,
   `valuecon_id` int(11) NOT NULL,
   `startdate` varchar(255) NOT NULL,
-  `enddate` varchar(255) NOT NULL,
-  PRIMARY KEY (`promo_id`),
-  KEY `promo_type` (`promo_type`),
-  KEY `valuegiven_id` (`valuegiven_id`),
-  KEY `valuecon_id` (`valuecon_id`)
+  `enddate` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `promotions_tb`
+--
+
+INSERT INTO `promotions_tb` (`promo_id`, `storeId`, `proimage`, `promo_name`, `promo_type`, `promo_dec`, `amountuse`, `amountgiven`, `valuegiven_id`, `amountcon`, `valuecon_id`, `startdate`, `enddate`) VALUES
+(77, 93, '1720424657164.jpg', 'ซื่อ 10 เเถม 1', 2, 'ลูกค้าซื่อสินค้า 10 ชิ้น  เเถม 1 ชิ้น', 1000, 1, 1, 10, 1, '1/1/1970', '1/31/1970'),
+(79, 93, '1720430180171.jpg', '5 ชิ้น ได้เเต้ม 500 เเต้ม', 3, '55555555', 5010, 600, 4, 100, 1, '1/1/1970', '1/1/1970'),
+(80, 93, '1720450605865.jpg', '10 เเถม 1', 2, '', 1000, 1, 1, 10, 1, '1/1/1970', '1/1/1970'),
+(85, 94, '1720541552751.jpg', '40 ลด 50%', 1, '', 10000, 50, 3, 50, 1, '7/9/2024', '3/19/1970'),
+(92, 94, '1720543715599.png', '', 1, '', 0, 0, 1, 0, 1, '7/25/2024', '8/2/2024');
 
 -- --------------------------------------------------------
 
@@ -83,10 +132,9 @@ CREATE TABLE `promotions_tb` (
 --
 
 CREATE TABLE `promotion_type` (
-  `promo_type_id` int(11) NOT NULL AUTO_INCREMENT,
+  `promo_type_id` int(11) NOT NULL,
   `promo_type_name` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`promo_type_id`)
+  `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -106,10 +154,9 @@ INSERT INTO `promotion_type` (`promo_type_id`, `promo_type_name`, `description`)
 --
 
 CREATE TABLE `statusdetail` (
-  `statusId` int(11) NOT NULL AUTO_INCREMENT,
+  `statusId` int(11) NOT NULL,
   `statusName` varchar(200) NOT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`statusId`)
+  `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -123,25 +170,49 @@ INSERT INTO `statusdetail` (`statusId`, `statusName`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `status_pd_tb`
+--
+
+CREATE TABLE `status_pd_tb` (
+  `status_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `status_pd_tb`
+--
+
+INSERT INTO `status_pd_tb` (`status_id`, `name`) VALUES
+(1, 'สินค้ามีอยู่'),
+(2, 'สินค้าหมด');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stores`
 --
 
 CREATE TABLE `stores` (
-  `storeId` int(11) NOT NULL AUTO_INCREMENT,
+  `storeId` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `logo` text NOT NULL,
   `storeName` varchar(255) NOT NULL,
   `storeType` int(11) NOT NULL DEFAULT 1,
   `storeDes` text NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `pass` varchar(255) NOT NULL,
+  `style` varchar(255) NOT NULL,
+  `province` varchar(255) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `address` text NOT NULL,
-  `status` int(11) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`storeId`),
-  KEY `status` (`status`),
-  KEY `storeType` (`storeType`)
+  `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `stores`
+--
+
+INSERT INTO `stores` (`storeId`, `user_id`, `logo`, `storeName`, `storeType`, `storeDes`, `style`, `province`, `phone`, `address`, `status`) VALUES
+(93, 31, 'logo-1720423590110-942134512.png', 'reeriisasam', 1, 'sasassas', 'วิเทจ', 'นรา', '0925736324', 'acscsc', 2),
+(94, 32, 'logo-1720534349812-274996812.jpg', 'urPro', 3, 'เป็นร้านค้ารีเลศที่ ทำให่คุณสบายใจ ได้ในคำคืน', 'วิเทจ', 'นราธิวาส', '0925736324', '151/55 นราธิวาส ตากใบ', 2);
 
 -- --------------------------------------------------------
 
@@ -150,10 +221,9 @@ CREATE TABLE `stores` (
 --
 
 CREATE TABLE `storetypetb` (
-  `storeTypeId` int(11) NOT NULL AUTO_INCREMENT,
+  `storeTypeId` int(11) NOT NULL,
   `storeTypeName` varchar(200) NOT NULL,
-  `desType` text NOT NULL,
-  PRIMARY KEY (`storeTypeId`)
+  `desType` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -162,7 +232,8 @@ CREATE TABLE `storetypetb` (
 
 INSERT INTO `storetypetb` (`storeTypeId`, `storeTypeName`, `desType`) VALUES
 (1, 'ร้านบริการ', ''),
-(2, 'ร้านอาหาร', '');
+(2, 'ร้านอาหาร', ''),
+(3, 'ร้านคาเฟ่', '');
 
 -- --------------------------------------------------------
 
@@ -171,17 +242,25 @@ INSERT INTO `storetypetb` (`storeTypeId`, `storeTypeName`, `desType`) VALUES
 --
 
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `referral_code` varchar(255) NOT NULL,
+  `referred_by` varchar(255) DEFAULT NULL,
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `full_name` varchar(255) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `phone_number` varchar(15) DEFAULT NULL,
-  `user_type` int(11) DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`)
+  `user_type` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `referral_code`, `referred_by`, `username`, `email`, `password`, `full_name`, `address`, `phone_number`, `user_type`) VALUES
+(31, 'rerwf23', NULL, 'samree', '406459015@yru.ac.th', '1111111111', 'muhammadsamree samaae', 'acscsc', '0925736324', 3),
+(32, 'tYJcSVKqqQ', 'rerwf23', 'anwar', '406459015@yru.ac.th', '5555555555', 'muhammadsamree samaae', 'acscsc', '0925736324', 3);
 
 -- --------------------------------------------------------
 
@@ -190,10 +269,8 @@ CREATE TABLE `users` (
 --
 
 CREATE TABLE `user_types` (
-  `user_type_id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_name` varchar(255) NOT NULL,
-  PRIMARY KEY (`user_type_id`),
-  UNIQUE KEY `type_name` (`type_name`)
+  `user_type_id` int(11) NOT NULL,
+  `type_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -212,9 +289,8 @@ INSERT INTO `user_types` (`user_type_id`, `type_name`) VALUES
 --
 
 CREATE TABLE `valuecon_tb` (
-  `valuecon_id` int(11) NOT NULL AUTO_INCREMENT,
-  `valuecon_name` varchar(255) NOT NULL,
-  PRIMARY KEY (`valuecon_id`)
+  `valuecon_id` int(11) NOT NULL,
+  `valuecon_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -232,9 +308,8 @@ INSERT INTO `valuecon_tb` (`valuecon_id`, `valuecon_name`) VALUES
 --
 
 CREATE TABLE `valuegiven_tb` (
-  `valuegiven_id` int(11) NOT NULL AUTO_INCREMENT,
-  `valuegiven_name` varchar(255) NOT NULL,
-  PRIMARY KEY (`valuegiven_id`)
+  `valuegiven_id` int(11) NOT NULL,
+  `valuegiven_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -244,11 +319,199 @@ CREATE TABLE `valuegiven_tb` (
 INSERT INTO `valuegiven_tb` (`valuegiven_id`, `valuegiven_name`) VALUES
 (1, 'ชิ้น'),
 (2, 'บาท'),
-(3, '%');
+(3, '%'),
+(4, 'เเต้ม');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `mulimagestb`
+--
+ALTER TABLE `mulimagestb`
+  ADD PRIMARY KEY (`mulimagesId`),
+  ADD KEY `storeId` (`storeId`);
+
+--
+-- Indexes for table `product_tb`
+--
+ALTER TABLE `product_tb`
+  ADD PRIMARY KEY (`product_id`),
+  ADD KEY `product_type_id` (`product_type_id`),
+  ADD KEY `status_id` (`status_id`),
+  ADD KEY `storeId` (`storeId`);
+
+--
+-- Indexes for table `product_type_tb`
+--
+ALTER TABLE `product_type_tb`
+  ADD PRIMARY KEY (`product_type_id`);
+
+--
+-- Indexes for table `promotions_tb`
+--
+ALTER TABLE `promotions_tb`
+  ADD PRIMARY KEY (`promo_id`),
+  ADD KEY `promo_type` (`promo_type`),
+  ADD KEY `valuegiven_id` (`valuegiven_id`),
+  ADD KEY `valuecon_id` (`valuecon_id`),
+  ADD KEY `storeId` (`storeId`);
+
+--
+-- Indexes for table `promotion_type`
+--
+ALTER TABLE `promotion_type`
+  ADD PRIMARY KEY (`promo_type_id`);
+
+--
+-- Indexes for table `statusdetail`
+--
+ALTER TABLE `statusdetail`
+  ADD PRIMARY KEY (`statusId`);
+
+--
+-- Indexes for table `status_pd_tb`
+--
+ALTER TABLE `status_pd_tb`
+  ADD PRIMARY KEY (`status_id`);
+
+--
+-- Indexes for table `stores`
+--
+ALTER TABLE `stores`
+  ADD PRIMARY KEY (`storeId`),
+  ADD KEY `status` (`status`),
+  ADD KEY `storeType` (`storeType`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `storetypetb`
+--
+ALTER TABLE `storetypetb`
+  ADD PRIMARY KEY (`storeTypeId`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `referral_code` (`referral_code`),
+  ADD KEY `user_type` (`user_type`);
+
+--
+-- Indexes for table `user_types`
+--
+ALTER TABLE `user_types`
+  ADD PRIMARY KEY (`user_type_id`),
+  ADD UNIQUE KEY `type_name` (`type_name`);
+
+--
+-- Indexes for table `valuecon_tb`
+--
+ALTER TABLE `valuecon_tb`
+  ADD PRIMARY KEY (`valuecon_id`);
+
+--
+-- Indexes for table `valuegiven_tb`
+--
+ALTER TABLE `valuegiven_tb`
+  ADD PRIMARY KEY (`valuegiven_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `mulimagestb`
+--
+ALTER TABLE `mulimagestb`
+  MODIFY `mulimagesId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `product_tb`
+--
+ALTER TABLE `product_tb`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- AUTO_INCREMENT for table `product_type_tb`
+--
+ALTER TABLE `product_type_tb`
+  MODIFY `product_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `promotions_tb`
+--
+ALTER TABLE `promotions_tb`
+  MODIFY `promo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+
+--
+-- AUTO_INCREMENT for table `promotion_type`
+--
+ALTER TABLE `promotion_type`
+  MODIFY `promo_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `statusdetail`
+--
+ALTER TABLE `statusdetail`
+  MODIFY `statusId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `status_pd_tb`
+--
+ALTER TABLE `status_pd_tb`
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `stores`
+--
+ALTER TABLE `stores`
+  MODIFY `storeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+
+--
+-- AUTO_INCREMENT for table `storetypetb`
+--
+ALTER TABLE `storetypetb`
+  MODIFY `storeTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `user_types`
+--
+ALTER TABLE `user_types`
+  MODIFY `user_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `valuecon_tb`
+--
+ALTER TABLE `valuecon_tb`
+  MODIFY `valuecon_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `valuegiven_tb`
+--
+ALTER TABLE `valuegiven_tb`
+  MODIFY `valuegiven_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `product_tb`
+--
+ALTER TABLE `product_tb`
+  ADD CONSTRAINT `product_tb_ibfk_1` FOREIGN KEY (`product_type_id`) REFERENCES `product_type_tb` (`product_type_id`),
+  ADD CONSTRAINT `product_tb_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `status_pd_tb` (`status_id`),
+  ADD CONSTRAINT `product_tb_ibfk_3` FOREIGN KEY (`storeId`) REFERENCES `stores` (`storeId`);
 
 --
 -- Constraints for table `promotions_tb`
@@ -256,14 +519,22 @@ INSERT INTO `valuegiven_tb` (`valuegiven_id`, `valuegiven_name`) VALUES
 ALTER TABLE `promotions_tb`
   ADD CONSTRAINT `promotions_tb_ibfk_1` FOREIGN KEY (`promo_type`) REFERENCES `promotion_type` (`promo_type_id`),
   ADD CONSTRAINT `promotions_tb_ibfk_2` FOREIGN KEY (`valuegiven_id`) REFERENCES `valuegiven_tb` (`valuegiven_id`),
-  ADD CONSTRAINT `promotions_tb_ibfk_3` FOREIGN KEY (`valuecon_id`) REFERENCES `valuecon_tb` (`valuecon_id`);
+  ADD CONSTRAINT `promotions_tb_ibfk_3` FOREIGN KEY (`valuecon_id`) REFERENCES `valuecon_tb` (`valuecon_id`),
+  ADD CONSTRAINT `promotions_tb_ibfk_4` FOREIGN KEY (`storeId`) REFERENCES `stores` (`storeId`);
 
 --
 -- Constraints for table `stores`
 --
 ALTER TABLE `stores`
   ADD CONSTRAINT `stores_ibfk_1` FOREIGN KEY (`status`) REFERENCES `statusdetail` (`statusId`),
-  ADD CONSTRAINT `stores_ibfk_2` FOREIGN KEY (`storeType`) REFERENCES `storetypetb` (`storeTypeId`);
+  ADD CONSTRAINT `stores_ibfk_2` FOREIGN KEY (`storeType`) REFERENCES `storetypetb` (`storeTypeId`),
+  ADD CONSTRAINT `stores_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_type`) REFERENCES `user_types` (`user_type_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
