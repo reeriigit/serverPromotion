@@ -231,6 +231,9 @@ app.use(producttypeRoute);
 const productRoute = require('./routes/product')(db);
 app.use(productRoute);
 
+const setpromotionRoute = require('./routes/setpromotion')(db);
+app.use(setpromotionRoute);
+
 app.listen(port, () => {
     console.log('listening')
 });
