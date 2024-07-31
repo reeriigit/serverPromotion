@@ -62,6 +62,76 @@ module.exports = (db) => {
     });
 });
 
+router.get('/setpromotionslist', (req, res) => {
+  // ใช้ req.query สำหรับ query parameter
+
+  const sql = `
+    SELECT 
+      sp.set_promotion_id, sp.promo_id, sp.product_id, sp.storeId,
+      p.images, p.name, p.product_type_id, p.description AS product_description, p.price, p.cost_price, p.status_id,
+      pr.proimage, pr.promo_name, pr.promo_type, pr.promo_dec, pr.amountuse, pr.amountgiven, pr.valuegiven_id, pr.amountcon, pr.valuecon_id, pr.startdate, pr.enddate,
+      pt.promo_type_name, pt.description AS promo_type_description,
+      vg.valuegiven_name,
+      vc.valuecon_name,
+      ptb.product_type_name, ptb.product_type_image, ptb.description AS product_type_description
+    FROM set_promotion_tb sp
+    JOIN product_tb p ON sp.product_id = p.product_id
+    JOIN promotions_tb pr ON sp.promo_id = pr.promo_id
+    JOIN promotion_type pt ON pr.promo_type = pt.promo_type_id
+    JOIN valuegiven_tb vg ON pr.valuegiven_id = vg.valuegiven_id
+    JOIN valuecon_tb vc ON pr.valuecon_id = vc.valuecon_id
+    JOIN product_type_tb ptb ON p.product_type_id = ptb.product_type_id
+    ORDER BY sp.set_promotion_id DESC`;
+
+  db.query(sql, (error, results) => {
+    if (error) {
+      console.error('Error fetching data:', error);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+
+    res.json(results);
+  });
+});
+  
+router.get('/setpromotionjoin/:set_promotion_id', (req, res) => {
+  const { set_promotion_id } = req.params;
+
+  const sql = `
+    SELECT 
+      sp.set_promotion_id, sp.promo_id, sp.product_id, sp.storeId,
+      p.images, p.name, p.product_type_id, p.description AS product_description, p.price, p.cost_price, p.status_id,
+      pr.proimage, pr.promo_name, pr.promo_type, pr.promo_dec, pr.amountuse, pr.amountgiven, pr.valuegiven_id, pr.amountcon, pr.valuecon_id, pr.startdate, pr.enddate,
+      pt.promo_type_name, pt.description AS promo_type_description,
+      vg.valuegiven_name,
+      vc.valuecon_name,
+      ptb.product_type_name, ptb.product_type_image, ptb.description AS product_type_description
+    FROM set_promotion_tb sp
+    JOIN product_tb p ON sp.product_id = p.product_id
+    JOIN promotions_tb pr ON sp.promo_id = pr.promo_id
+    JOIN promotion_type pt ON pr.promo_type = pt.promo_type_id
+    JOIN valuegiven_tb vg ON pr.valuegiven_id = vg.valuegiven_id
+    JOIN valuecon_tb vc ON pr.valuecon_id = vc.valuecon_id
+    JOIN product_type_tb ptb ON p.product_type_id = ptb.product_type_id
+    WHERE sp.set_promotion_id = ?
+    ORDER BY sp.set_promotion_id DESC`;
+
+  db.query(sql, [set_promotion_id], (error, results) => {
+    if (error) {
+      console.error('Error fetching data:', error);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+
+    res.json(results);
+  });
+});
+
+
+
+
+
+
   
 
   // Get a set promotion by ID

@@ -234,6 +234,12 @@ app.use(productRoute);
 const setpromotionRoute = require('./routes/setpromotion')(db);
 app.use(setpromotionRoute);
 
+const puchaseoderRoute = require('./routes/puchaseoder')(db);
+app.use(puchaseoderRoute);
+
+const oderRoute = require('./routes/oder')(db);
+app.use(oderRoute);
+
 app.listen(port, () => {
     console.log('listening')
 });
