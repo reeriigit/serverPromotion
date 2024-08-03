@@ -240,6 +240,9 @@ app.use(puchaseoderRoute);
 const oderRoute = require('./routes/oder')(db);
 app.use(oderRoute);
 
+const menudetailRoute = require('./routes/menudetail')(db);
+app.use(menudetailRoute);
+
 app.listen(port, () => {
     console.log('listening')
 });

@@ -53,13 +53,13 @@ module.exports = (db) => {
 
   // Register a new order
   router.post("/oder_register", (req, res) => {
-    const { set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro } = req.body;
+    const { set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro, menu_detail, purchasetype_id, order_detail } = req.body;
 
     const sql = `
-      INSERT INTO oder_tb (set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO oder_tb (set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro, menu_detail, purchasetype_id, order_detail)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    const values = [set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro];
+    const values = [set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro, menu_detail, purchasetype_id, order_detail];
 
     db.query(sql, values, (err, result) => {
       if (err) {
@@ -77,7 +77,7 @@ module.exports = (db) => {
 
     const sql = `
       UPDATE oder_tb
-      SET set_promotion_id=?, totalprice=?, puchaseoder_id=?, order_status_id=?, oder_amount=?, price=?, price_setpro=?
+      SET set_promotion_id=?, totalprice=?, puchaseoder_id=?, order_status_id=?, oder_amount=?, price=?, price_setpro=?, menu_detail=?, purchasetype_id=?, order_detail=?
       WHERE oder_id = ?
     `;
     const values = [
@@ -88,6 +88,9 @@ module.exports = (db) => {
       req.body.oder_amount,
       req.body.price,
       req.body.price_setpro,
+      req.body.menu_detail,
+      req.body.purchasetype_id,
+      req.body.order_detail,
       oder_id
     ];
 
