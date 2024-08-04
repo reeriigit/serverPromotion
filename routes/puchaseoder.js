@@ -4,12 +4,38 @@ const router = express.Router();
 // Export a function that accepts the db connection
 module.exports = (db) => {
 
+  router.put('/edit_puchaseoder/status/:puchaseoder_id', (req, res) => {
+    const { puchaseoder_id } = req.params;
+    const { puoder_status_id } = req.body;
+  
+    const sql = `
+      UPDATE puchaseoder
+      SET puoder_status_id = ?
+      WHERE puchaseoder_id = ?
+    `;
+  
+    db.query(sql, [puoder_status_id, puchaseoder_id], (error, results) => {
+      if (error) {
+        console.error('Error updating purchase order:', error);
+        res.status(500).json({ error: 'Failed to update purchase order' });
+      } else {
+        res.json({ message: 'Purchase order updated successfully' });
+      }
+    });
+  });
+  
+
   router.get("/puchaseoder/user/:user_id/status/:puoder_status_id", (req, res) => {
     const user_id = req.params.user_id;
-    const puoder_status_id = req.params.puoder_status_id; // เพิ่ม puoder_status_id
+    const puoder_status_id = req.params.puoder_status_id; // Added puoder_status_id
 
-    // ปรับคำสั่ง SQL เพื่อรวมเงื่อนไขของ puoder_status_id
-    const sql = "SELECT * FROM `puchaseoder` WHERE user_id = ? AND puoder_status_id = ?";
+    // SQL query to join puchaseoder with users and select required fields
+    const sql = `
+        SELECT p.*, u.user_id, u.referral_code, u.referred_by, u.username, u.email, u.password, u.full_name, u.address, u.phone_number, u.user_type
+        FROM puchaseoder p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.user_id = ? AND p.puoder_status_id = ?
+    `;
 
     db.query(sql, [user_id, puoder_status_id], (err, result) => {
         if (err) {
@@ -25,9 +51,81 @@ module.exports = (db) => {
     });
 });
 
+router.get("/puchaseoder/store/:storeId/status/:st/search/:q", (req, res) => {
+  const storeId = req.params.storeId;
+  const searchQuery = req.params.q;
+  const searchstatus = req.params.st;
+
+  const sql = `
+    SELECT 
+      p.puchaseoder_id, p.user_id, p.storeId, p.puchaseoder_date, 
+      p.puoder_status_id, p.puchaseoder_ttprice,
+      u.username
+    FROM 
+      puchaseoder p
+    JOIN 
+      users u ON p.user_id = u.user_id
+    WHERE 
+      p.storeId = ?
+      AND p.puoder_status_id = ?
+      AND (u.username LIKE ? OR p.puchaseoder_id LIKE ?)
+  `;
+
+  // Add % for search
+  const searchValue = `%${searchQuery}%`;
+
+  db.query(sql, [storeId, searchstatus, searchValue, searchValue], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server Error" });
+    }
+
+    if (result.length > 0) {
+      return res.json(result);
+    } else {
+      return res.status(404).json({ message: "No purchase orders found for this store" });
+    }
+  });
+});
+
+router.get("/puchaseoder/store/:storeId/status/:st", (req, res) => {
+  const storeId = req.params.storeId;
+  const searchstatus = req.params.st;
+
+  const sql = `
+    SELECT 
+      p.puchaseoder_id, p.user_id, p.storeId, p.puchaseoder_date, 
+      p.puoder_status_id, p.puchaseoder_ttprice,
+      u.username
+    FROM 
+      puchaseoder p
+    JOIN 
+      users u ON p.user_id = u.user_id
+    WHERE 
+      p.storeId = ?
+      AND p.puoder_status_id = ?
+  `;
+
+  // Add % for search
+
+  db.query(sql, [storeId, searchstatus], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server Error" });
+    }
+
+    if (result.length > 0) {
+      return res.json(result);
+    } else {
+      return res.status(404).json({ message: "No purchase orders found for this store" });
+    }
+  });
+});
+
 router.get("/puchaseoder/store/:storeId/search/:q", (req, res) => {
   const storeId = req.params.storeId;
   const searchQuery = req.params.q;
+
 
   const sql = `
     SELECT 
@@ -59,6 +157,8 @@ router.get("/puchaseoder/store/:storeId/search/:q", (req, res) => {
     }
   });
 });
+
+
 
 
 // ตัวอย่างการเรียกใช้งาน API

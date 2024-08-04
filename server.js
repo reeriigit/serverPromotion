@@ -243,6 +243,9 @@ app.use(oderRoute);
 const menudetailRoute = require('./routes/menudetail')(db);
 app.use(menudetailRoute);
 
+const baskettbRoute = require('./routes/baskettb')(db);
+app.use(baskettbRoute);
+
 app.listen(port, () => {
     console.log('listening')
 });
