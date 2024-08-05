@@ -59,7 +59,7 @@ router.get("/puchaseoder/store/:storeId/status/:st/search/:q", (req, res) => {
   const sql = `
     SELECT 
       p.puchaseoder_id, p.user_id, p.storeId, p.puchaseoder_date, 
-      p.puoder_status_id, p.puchaseoder_ttprice,
+      p.puoder_status_id, p.puchaseoder_ttprice,p.compostore_name,
       u.username
     FROM 
       puchaseoder p
@@ -95,7 +95,7 @@ router.get("/puchaseoder/store/:storeId/status/:st", (req, res) => {
   const sql = `
     SELECT 
       p.puchaseoder_id, p.user_id, p.storeId, p.puchaseoder_date, 
-      p.puoder_status_id, p.puchaseoder_ttprice,
+      p.puoder_status_id, p.puchaseoder_ttprice,p.compostore_name,
       u.username
     FROM 
       puchaseoder p
@@ -130,7 +130,7 @@ router.get("/puchaseoder/store/:storeId/search/:q", (req, res) => {
   const sql = `
     SELECT 
       p.puchaseoder_id, p.user_id, p.storeId, p.puchaseoder_date, 
-      p.puoder_status_id, p.puchaseoder_ttprice,
+      p.puoder_status_id, p.puchaseoder_ttprice,p.compostore_name,
       u.username
     FROM 
       puchaseoder p
@@ -169,7 +169,7 @@ router.get("/puchaseoder/store/:storeId/search/:q", (req, res) => {
     const sql = `
     SELECT 
       p.puchaseoder_id, p.user_id, p.storeId, p.puchaseoder_date, 
-      p.puoder_status_id, p.puchaseoder_ttprice,
+      p.puoder_status_id, p.puchaseoder_ttprice, p.compostore_name,
       u.user_id, u.referral_code, u.referred_by, u.username, 
       u.email, u.password, u.full_name, u.address, u.phone_number, u.user_type
     FROM 
@@ -235,13 +235,13 @@ router.get("/puchaseoder/store/:storeId/search/:q", (req, res) => {
 
   // Register a new purchase order
   router.post("/puchaseoder_register", (req, res) => {
-    const { user_id, storeId, puchaseoder_date, puoder_status_id, puchaseoder_ttprice } = req.body;
+    const { user_id, storeId, puchaseoder_date, puoder_status_id, puchaseoder_ttprice,compostore_name } = req.body;
   
     const sql = `
-      INSERT INTO puchaseoder (user_id, storeId, puchaseoder_date, puoder_status_id, puchaseoder_ttprice)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO puchaseoder (user_id, storeId, puchaseoder_date, puoder_status_id, puchaseoder_ttprice,compostore_name)
+      VALUES (?, ?, ?, ?, ?, ?)
     `;
-    const values = [user_id, storeId, puchaseoder_date, puoder_status_id, puchaseoder_ttprice];
+    const values = [user_id, storeId, puchaseoder_date, puoder_status_id, puchaseoder_ttprice,compostore_name];
   
     db.query(sql, values, (err, result) => {
       if (err) {
@@ -259,7 +259,7 @@ router.get("/puchaseoder/store/:storeId/search/:q", (req, res) => {
 
     const sql = `
       UPDATE puchaseoder
-      SET user_id=?, storeId=?, puchaseoder_date=?, puoder_status_id=?, puchaseoder_ttprice=?
+      SET user_id=?, storeId=?, puchaseoder_date=?, puoder_status_id=?, puchaseoder_ttprice=?,compostore_name=?
       WHERE puchaseoder_id = ?
     `;
     const values = [
@@ -268,6 +268,7 @@ router.get("/puchaseoder/store/:storeId/search/:q", (req, res) => {
       req.body.puchaseoder_date,
       req.body.puoder_status_id,
       req.body.puchaseoder_ttprice,
+      req.body.compostore_name,
       puchaseoder_id
     ];
 
