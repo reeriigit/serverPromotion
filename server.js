@@ -249,6 +249,9 @@ app.use(baskettbRoute);
 const compostoreRoute = require('./routes/compostore')(db);
 app.use(compostoreRoute);
 
+const menudetaildataRoute = require('./routes/menudetaildata')(db);
+app.use(menudetaildataRoute);
+
 app.listen(port, () => {
     console.log('listening')
 });

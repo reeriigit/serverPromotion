@@ -4,6 +4,37 @@ const router = express.Router();
 // Export a function that accepts the db connection
 module.exports = (db) => {
 
+  router.get("/compostores/:storeId/status/:compo_status_id", (req, res) => {
+    const storeId = req.params.storeId;
+    const compo_status_id = req.params.compo_status_id;
+
+    if (!storeId || !compo_status_id) {
+        return res.status(400).json({ message: "Store ID and compostore status ID are required" });
+    }
+
+    const sql = `
+      SELECT 
+        compo.*,
+        s.user_id, s.logo, s.storeName, s.storeType, s.storeDes, s.style, s.province, s.phone, s.address, s.status AS store_status
+      FROM compostore_tb compo
+      JOIN stores s ON compo.storeId = s.storeId
+      WHERE compo.storeId = ? AND compo.compo_status_id = ?`;
+    
+    db.query(sql, [storeId, compo_status_id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: "Server Error", error: err.message });
+        }
+    
+        if (result.length > 0) {
+            return res.json(result);
+        } else {
+            return res.status(404).json({ message: "Compostores not found for this store with the given status" });
+        }
+    });
+});
+
+
   // Get compostores by store ID
   router.get("/compostores/:storeId", (req, res) => {
     const storeId = req.params.storeId;
@@ -56,6 +87,37 @@ module.exports = (db) => {
     });
   });
 
+  router.get("/compostore/search/:search", (req, res) => {
+    const search = req.params.search;
+  
+    if (!search) {
+      return res.status(400).json({ message: "Search parameter is required" });
+    }
+  
+    // ค้นหาทั้ง compostore_id หรือ compostore_name
+    const sql = `
+      SELECT * FROM compostore_tb 
+      WHERE compostore_id = ? 
+      OR compostore_name LIKE ?
+    `;
+  
+    db.query(sql, [search, `%${search}%`], (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Server Error", error: err.message });
+      }
+  
+      if (result.length > 0) {
+        return res.json(result);
+      } else {
+        return res.status(404).json({ message: "Compostore not found" });
+      }
+    });
+  });
+  
+  
+  
+
   // Register a new compostore
   router.post("/compostore_register", (req, res) => {
     const { compostore_name, compo_status_id, storeId } = req.body;
@@ -100,6 +162,61 @@ module.exports = (db) => {
   
 
   // Update a compostore
+  // Update compostore based on status, storeId, and compostore_name
+// Update compostore based on status, storeId, and compostore_name
+router.put("/editcompostore/status/:status/compos/:compostore_id", (req, res) => {
+  const status = req.params.status;
+  const compostore_id = req.params.compostore_id;
+
+  if (!status || !compostore_id) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  const sql = `
+    UPDATE compostore_tb
+    SET compo_status_id = ?
+    WHERE compostore_id = ?
+  `;
+  const values = [status, compostore_id];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server Error", error: err.message });
+    }
+
+    // Check if any rows were affected
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Compostore not found or no changes made" });
+    }
+
+    return res.json({ message: "Compostore updated successfully" });
+  });
+});
+
+// Update or add new compostore with status 2
+router.put("/editcompos/:storeId/compos/:compostoreName", (req, res) => {
+  const storeId = req.params.storeId;
+  const compostoreName = req.params.compostoreName;
+
+  const sql = `
+    INSERT INTO compostore_tb (compo_status_id, storeId, compostore_name)
+    VALUES (2, ?, ?)
+    ON DUPLICATE KEY UPDATE compo_status_id = 2
+  `;
+  const values = [storeId, compostoreName];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server Error", error: err.message });
+    }
+    return res.json({ message: "Compostore updated or added with status 2" });
+  });
+});
+
+
+
   router.put("/edit_compostore/:compostore_id", (req, res) => {
     const compostore_id = req.params.compostore_id;
     const { compostore_name, compo_status_id, storeId } = req.body;

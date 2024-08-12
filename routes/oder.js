@@ -4,6 +4,32 @@ const router = express.Router();
 // Export a function that accepts the db connection
 module.exports = (db) => {
 
+  // Assuming you are using Express and have a db connection set up
+router.get("/sum-prices/:puchaseoder_id", (req, res) => {
+  const puchaseoder_id = req.params.puchaseoder_id;
+
+  // SQL query to calculate the sum of price_setpro and price for a specific purchasetype_id
+  const sql = `
+      SELECT SUM(price_setpro) AS total_price_setpro, SUM(price) AS total_price
+      FROM oder_tb
+      WHERE puchaseoder_id = ?
+  `;
+
+  db.query(sql, [puchaseoder_id], (err, result) => {
+      if (err) {
+          console.error(err);
+          return res.status(500).json({ message: "Server Error" });
+      }
+
+      if (result.length > 0) {
+          return res.json(result);
+      } else {
+          return res.status(404).json({ message: "No orders found for the given purchasetype_id" });
+      }
+  });
+});
+
+
   router.get("/orders/puchaseorder/:puchaseoder_id", (req, res) => {
     const puchaseoder_id = req.params.puchaseoder_id;
     const sql = `
@@ -53,13 +79,13 @@ module.exports = (db) => {
 
   // Register a new order
   router.post("/oder_register", (req, res) => {
-    const { set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro, menu_detail, purchasetype_id, order_detail } = req.body;
+    const { set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro, menu_data_id, purchasetype_id, order_detail } = req.body;
 
     const sql = `
-      INSERT INTO oder_tb (set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro, menu_detail, purchasetype_id, order_detail)
+      INSERT INTO oder_tb (set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro, menu_data_id, purchasetype_id, order_detail)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    const values = [set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro, menu_detail, purchasetype_id, order_detail];
+    const values = [set_promotion_id, totalprice, puchaseoder_id, order_status_id, oder_amount, price, price_setpro, menu_data_id, purchasetype_id, order_detail];
 
     db.query(sql, values, (err, result) => {
       if (err) {
@@ -77,7 +103,7 @@ module.exports = (db) => {
 
     const sql = `
       UPDATE oder_tb
-      SET set_promotion_id=?, totalprice=?, puchaseoder_id=?, order_status_id=?, oder_amount=?, price=?, price_setpro=?, menu_detail=?, purchasetype_id=?, order_detail=?
+      SET set_promotion_id=?, totalprice=?, puchaseoder_id=?, order_status_id=?, oder_amount=?, price=?, price_setpro=?, menu_data_id=?, purchasetype_id=?, order_detail=?
       WHERE oder_id = ?
     `;
     const values = [
@@ -88,7 +114,7 @@ module.exports = (db) => {
       req.body.oder_amount,
       req.body.price,
       req.body.price_setpro,
-      req.body.menu_detail,
+      req.body.menu_data_id,
       req.body.purchasetype_id,
       req.body.order_detail,
       oder_id
