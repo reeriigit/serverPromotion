@@ -252,6 +252,16 @@ app.use(compostoreRoute);
 const menudetaildataRoute = require('./routes/menudetaildata')(db);
 app.use(menudetaildataRoute);
 
+const paymentchannelRoute = require('./routes/paymentchannel')(db);
+app.use(paymentchannelRoute);
+
+const storestyleRoute = require('./routes/storestyle')(db);
+app.use(storestyleRoute);
+
+const paymenttbRoute = require('./routes/paymenttb')(db);
+app.use(paymenttbRoute);
+
+
 app.listen(port, () => {
     console.log('listening')
 });

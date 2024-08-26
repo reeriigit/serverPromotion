@@ -28,6 +28,37 @@ router.get("/sum-prices/:puchaseoder_id", (req, res) => {
       }
   });
 });
+///00000000
+router.get("/orders/total/:storeId", (req, res) => {
+  const { storeId } = req.params;
+
+  const sql = `
+    SELECT 
+      COUNT(oder_id) AS total_orders,
+      SUM(oder_amount) AS total_amount
+    FROM 
+      oder_tb
+    WHERE 
+      storeId = ?
+  `;
+
+  db.query(sql, [storeId], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server Error" });
+    }
+
+    if (result.length > 0) {
+      return res.json({
+        total_orders: result[0].total_orders,
+        total_amount: result[0].total_amount
+      });
+    } else {
+      return res.status(404).json({ message: "No orders found for this store" });
+    }
+  });
+});
+
 
 
   router.get("/orders/puchaseorder/:puchaseoder_id", (req, res) => {

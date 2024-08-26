@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2024 at 04:41 PM
+-- Generation Time: Aug 12, 2024 at 05:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -39,12 +39,205 @@ CREATE TABLE `basket_tb` (
 --
 
 INSERT INTO `basket_tb` (`basket_id`, `set_promotion_id`, `user_id`, `storeId`) VALUES
-(12, 44, 38, 96),
-(13, 45, 38, 96),
-(14, 45, 38, 96),
-(18, 43, 38, 96),
-(19, 36, 38, 95),
-(20, 42, 38, 96);
+(21, 43, 38, 96),
+(22, 35, 38, 95),
+(23, 35, 34, 95),
+(24, 43, 34, 96),
+(25, 44, 38, 96),
+(26, 41, 38, 96),
+(27, 45, 38, 96);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `compostore_tb`
+--
+
+CREATE TABLE `compostore_tb` (
+  `compostore_id` int(11) NOT NULL,
+  `compostore_name` varchar(20) NOT NULL,
+  `compo_status_id` int(11) NOT NULL,
+  `storeId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `compostore_tb`
+--
+
+INSERT INTO `compostore_tb` (`compostore_id`, `compostore_name`, `compo_status_id`, `storeId`) VALUES
+(12, 'A1', 1, 96),
+(13, 'A2', 1, 96),
+(14, 'A3', 1, 96),
+(15, 'A4', 1, 96),
+(16, 'A5', 1, 96),
+(17, 'A6', 2, 96),
+(20, 'A7', 1, 96),
+(26, '101', 2, 95),
+(27, '102', 1, 95);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `compo_status_tb`
+--
+
+CREATE TABLE `compo_status_tb` (
+  `compo_status_id` int(11) NOT NULL,
+  `compo_status_name` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `compo_status_tb`
+--
+
+INSERT INTO `compo_status_tb` (`compo_status_id`, `compo_status_name`) VALUES
+(1, 'ว่าง'),
+(2, 'ไม่ว่าง');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menu_data_tb`
+--
+
+CREATE TABLE `menu_data_tb` (
+  `menu_data_id` int(11) NOT NULL,
+  `menu_detail_data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `menu_data_tb`
+--
+
+INSERT INTO `menu_data_tb` (`menu_data_id`, `menu_detail_data`) VALUES
+(28, 'หวานน้อย'),
+(29, 'ไม่มี'),
+(30, 'ไม่มี, เส้นหมี่, เส้นเหลือง'),
+(31, 'ไม่มี'),
+(32, 'ไม่มี'),
+(33, 'ไม่มี'),
+(34, 'ไม่มี'),
+(35, 'ไม่มี'),
+(36, 'ไม่มี'),
+(37, 'ไม่มี'),
+(38, 'ไม่มี'),
+(39, 'ไม่มี'),
+(40, 'ไม่มี'),
+(41, 'ไม่มี, หวานน้อย'),
+(42, 'ไม่มี'),
+(43, 'ไม่มี'),
+(44, 'ไม่มี'),
+(45, 'ไม่มี'),
+(46, 'ไม่มี'),
+(47, 'ไม่มี'),
+(48, 'ไม่มี'),
+(49, 'ไม่มี, หวานน้อย'),
+(50, 'ไม่มี'),
+(51, 'ไม่มี'),
+(52, 'ไม่มี'),
+(53, 'ไม่มี'),
+(54, 'ไม่มี'),
+(55, 'ไม่มี'),
+(56, 'ไม่มี'),
+(57, 'ไม่มี'),
+(58, 'ไม่มี'),
+(59, 'ไม่มี'),
+(60, 'ไม่มี, เส้นซือดะ, เส้นหมี่'),
+(61, 'ไม่มี'),
+(62, 'ไม่มี'),
+(63, 'ไม่มี, หวานน้อย'),
+(64, 'ไม่มี, เส้นเหลือง, เส้นหมี่'),
+(65, 'ไม่มี'),
+(66, 'ไม่มี'),
+(67, 'ไม่มี'),
+(68, 'ไม่มี'),
+(69, 'ไม่มี'),
+(70, 'ไม่มี'),
+(71, 'ไม่มี, หวานน้อย'),
+(72, 'ไม่มี, หวานน้อย'),
+(73, 'ไม่มี, เส้นซือดะ, เส้นหมี่, เส้นเหลือง'),
+(74, 'ไม่มี'),
+(75, 'ไม่มี'),
+(76, 'ไม่มี, เส้นซือดะ, เส้นหมี่'),
+(77, 'ไม่มี, หวานน้อย'),
+(78, 'ไม่มี, เส้นซือดะ, เส้นหมี่'),
+(79, 'ไม่มี, เส้นซือดะ, เส้นหมี่'),
+(80, 'ไม่มี'),
+(81, 'ไม่มี'),
+(82, 'ไม่มี'),
+(83, 'ไม่มี'),
+(84, 'ไม่มี'),
+(85, 'ไม่มี, หวานน้อย'),
+(86, 'ไม่มี'),
+(87, 'ไม่มี'),
+(88, 'ไม่มี'),
+(89, 'ไม่มี'),
+(90, 'ไม่มี'),
+(91, 'ไม่มี'),
+(92, 'ไม่มี, เส้นหมี่, เส้นซือดะ'),
+(93, 'ไม่มี'),
+(94, 'ไม่มี, เส้นซือดะ, เส้นหมี่'),
+(95, 'ไม่มี'),
+(96, 'ไม่มี'),
+(97, 'ไม่มี'),
+(98, 'ไม่มี'),
+(99, 'ไม่มี'),
+(100, 'ไม่มี'),
+(101, 'ไม่มี'),
+(102, 'ไม่มี'),
+(103, 'ไม่มี'),
+(104, 'ไม่มี, เส้นซือดะ, เส้นหมี่'),
+(105, 'ไม่มี'),
+(106, 'ไม่มี'),
+(107, 'ไม่มี'),
+(108, 'ไม่มี'),
+(109, 'ไม่มี'),
+(110, 'ไม่มี'),
+(111, 'ไม่มี'),
+(112, 'ไม่มี'),
+(113, 'ไม่มี'),
+(114, 'ไม่มี'),
+(115, 'ไม่มี'),
+(116, 'ไม่มี'),
+(117, 'ไม่มี'),
+(118, 'ไม่มี'),
+(119, 'ไม่มี'),
+(120, 'ไม่มี'),
+(121, 'ไม่มี'),
+(122, 'ไม่มี'),
+(123, 'ไม่มี'),
+(124, 'ไม่มี'),
+(125, 'ไม่มี'),
+(126, 'ไม่มี'),
+(127, 'ไม่มี'),
+(128, 'ไม่มี, หวานน้อย'),
+(129, 'ไม่มี'),
+(130, 'ไม่มี, หวานน้อย'),
+(131, 'ไม่มี'),
+(132, 'ไม่มี, หวานน้อย'),
+(133, 'ไม่มี, เส้นซือดะ, เส้นหมี่'),
+(134, 'ไม่มี'),
+(135, 'ไม่มี'),
+(136, 'ไม่มี'),
+(137, 'ไม่มี'),
+(138, 'ไม่มี'),
+(139, 'ไม่มี'),
+(140, 'ไม่มี'),
+(141, 'ไม่มี'),
+(142, 'ไม่มี'),
+(143, 'ไม่มี'),
+(144, 'ไม่มี'),
+(145, 'ไม่มี'),
+(146, 'ไม่มี'),
+(147, 'ไม่มี'),
+(148, 'ไม่มี'),
+(149, 'ไม่มี'),
+(150, 'ไม่มี'),
+(151, 'ไม่มี'),
+(152, 'ไม่มี'),
+(153, 'ไม่มี'),
+(154, 'ไม่มี'),
+(155, 'ไม่มี');
 
 -- --------------------------------------------------------
 
@@ -69,7 +262,6 @@ INSERT INTO `menu_detail_tb` (`menu_detail_id`, `menu_detail_name`, `product_typ
 (8, 'เส้นเหลือง', 24),
 (9, 'เส้นหมี่', 24),
 (10, 'เส้นซือดะ', 24),
-(11, 'เส้นเกาเหลา', 24),
 (16, 'หวานปกติ', 25),
 (17, 'หวานน้อย', 25),
 (18, 'หวานปกติ', 26),
@@ -93,7 +285,8 @@ CREATE TABLE `mulimagestb` (
 
 INSERT INTO `mulimagestb` (`mulimagesId`, `storeId`, `mulimages`) VALUES
 (33, 95, 'mulimages-1720928558158-409528001.jpg,mulimages-1720928558162-287524989.jpg,mulimages-1720928558164-762364135.jpg,mulimages-1720928558166-339106186.jpg,mulimages-1720928558168-774510661.jpg,mulimages-1720928558169-805687114.jpg,mulimages-1720928558170-589540675.jpg,mulimages-1720928558172-584689355.jpg,mulimages-1720928558173-384427116.jpg'),
-(34, 96, 'mulimages-1721294138288-907160953.jpg,mulimages-1721294138304-136797879.jpg,mulimages-1721294138317-817047847.jpg,mulimages-1721294138342-306615560.jpg,mulimages-1721294138347-712548871.jpg,mulimages-1721294138347-894299401.png,mulimages-1721294138397-195035146.png');
+(34, 96, 'mulimages-1721294138288-907160953.jpg,mulimages-1721294138304-136797879.jpg,mulimages-1721294138317-817047847.jpg,mulimages-1721294138342-306615560.jpg,mulimages-1721294138347-712548871.jpg,mulimages-1721294138347-894299401.png,mulimages-1721294138397-195035146.png'),
+(35, 97, 'mulimages-1723389671799-295990075.jpg,mulimages-1723389671809-708085094.jpg,mulimages-1723389671817-36737081.jpg,mulimages-1723389671822-243488969.jpg,mulimages-1723389671827-39033204.jpg,mulimages-1723389671831-279875569.jpg,mulimages-1723389671843-780021613.jpg,mulimages-1723389671846-8365930.jpg,mulimages-1723389671851-586007276.jpg,mulimages-1723389671853-999755314.jpg');
 
 -- --------------------------------------------------------
 
@@ -110,7 +303,7 @@ CREATE TABLE `oder_tb` (
   `oder_amount` int(11) NOT NULL,
   `price` double NOT NULL,
   `price_setpro` double NOT NULL,
-  `menu_detail` text NOT NULL,
+  `menu_data_id` int(11) NOT NULL,
   `purchasetype_id` int(11) NOT NULL,
   `order_detail` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -119,25 +312,61 @@ CREATE TABLE `oder_tb` (
 -- Dumping data for table `oder_tb`
 --
 
-INSERT INTO `oder_tb` (`oder_id`, `set_promotion_id`, `totalprice`, `puchaseoder_id`, `order_status_id`, `oder_amount`, `price`, `price_setpro`, `menu_detail`, `purchasetype_id`, `order_detail`) VALUES
-(37, 45, 39, 37, 1, 1, 39, 35.1, 'หวานน้อย', 2, ''),
-(38, 42, 345, 38, 1, 5, 69, 276, 'เส้นซือดะ, เส้นหมี่', 2, 'ไม่ผัก'),
-(39, 42, 345, 39, 1, 5, 69, 276, 'เส้นเกาเหลา, เส้นซือดะ', 2, ''),
-(40, 45, 39, 40, 1, 1, 39, 35.1, '', 2, ''),
-(41, 45, 39, 41, 1, 1, 39, 35.1, '', 2, ''),
-(42, 45, 39, 42, 1, 1, 39, 35.1, '', 2, ''),
-(43, 45, 39, 43, 1, 1, 39, 35.1, 'หวานปกติ', 2, ''),
-(44, 45, 39, 44, 1, 1, 39, 35.1, '', 2, ''),
-(46, 35, 125, 46, 1, 1, 125, 100, '', 2, ''),
-(49, 45, 39, 37, 1, 1, 39, 35.1, '', 2, ''),
-(50, 45, 39, 47, 1, 1, 39, 35.1, 'หวานปกติ', 2, ''),
-(51, 42, 345, 48, 1, 5, 69, 276, 'เส้นหมี่, เส้นซือดะ', 2, ''),
-(52, 45, 35.1, 49, 1, 1, 39, 35.1, '', 2, ''),
-(53, 45, 39, 50, 1, 1, 39, 35.1, '', 2, ''),
-(54, 44, 69, 51, 1, 1, 69, 62.1, '', 2, ''),
-(55, 44, 69, 52, 1, 1, 69, 62.1, '', 2, ''),
-(56, 43, 30, 53, 1, 1, 30, 27, '', 2, ''),
-(57, 43, 30, 54, 1, 1, 30, 27, '', 2, '');
+INSERT INTO `oder_tb` (`oder_id`, `set_promotion_id`, `totalprice`, `puchaseoder_id`, `order_status_id`, `oder_amount`, `price`, `price_setpro`, `menu_data_id`, `purchasetype_id`, `order_detail`) VALUES
+(152, 44, 69, 157, 1, 1, 69, 62.1, 102, 2, ''),
+(153, 45, 39, 157, 1, 1, 39, 35.1, 103, 2, ''),
+(154, 44, 69, 158, 1, 1, 69, 62.1, 104, 2, ''),
+(155, 45, 39, 157, 1, 1, 39, 35.1, 105, 2, ''),
+(156, 35, 125, 159, 1, 1, 125, 100, 106, 2, ''),
+(157, 44, 69, 160, 1, 1, 69, 62.1, 107, 2, ''),
+(158, 43, 30, 161, 1, 1, 30, 27, 108, 2, ''),
+(159, 43, 30, 162, 1, 1, 30, 27, 109, 2, ''),
+(160, 41, 150, 162, 1, 5, 30, 120, 110, 2, ''),
+(161, 45, 39, 162, 1, 1, 39, 35.1, 111, 2, ''),
+(162, 43, 30, 163, 1, 1, 30, 27, 112, 1, ''),
+(163, 42, 345, 163, 1, 5, 69, 276, 113, 2, ''),
+(164, 45, 39, 163, 1, 1, 39, 35.1, 114, 2, ''),
+(165, 42, 345, 163, 1, 5, 69, 276, 115, 2, ''),
+(166, 35, 125, 159, 1, 1, 125, 100, 116, 2, ''),
+(167, 42, 345, 163, 1, 5, 69, 276, 117, 2, ''),
+(168, 42, 345, 164, 1, 5, 69, 276, 118, 2, ''),
+(169, 42, 345, 164, 1, 5, 69, 276, 119, 2, ''),
+(170, 45, 39, 164, 1, 1, 39, 35.1, 120, 2, ''),
+(171, 43, 30, 165, 1, 1, 30, 27, 121, 2, ''),
+(172, 43, 30, 165, 1, 1, 30, 27, 122, 1, ''),
+(173, 44, 69, 165, 1, 1, 69, 62.1, 123, 2, ''),
+(174, 45, 39, 165, 1, 1, 39, 35.1, 124, 2, ''),
+(175, 41, 150, 165, 1, 5, 30, 120, 125, 2, ''),
+(176, 35, 125, 159, 1, 1, 125, 100, 126, 2, ''),
+(177, 45, 39, 165, 1, 1, 39, 35.1, 127, 2, ''),
+(178, 45, 39, 166, 1, 1, 39, 35.1, 128, 2, ''),
+(179, 42, 345, 166, 1, 5, 69, 276, 129, 2, ''),
+(180, 45, 39, 167, 1, 1, 39, 35.1, 130, 1, ''),
+(181, 44, 69, 167, 1, 1, 69, 62.1, 131, 2, ''),
+(182, 45, 39, 168, 1, 1, 39, 35.1, 132, 2, ''),
+(183, 44, 69, 168, 1, 1, 69, 62.1, 133, 2, ''),
+(184, 45, 39, 167, 1, 1, 39, 35.1, 134, 2, ''),
+(185, 42, 345, 169, 1, 5, 69, 276, 135, 2, ''),
+(186, 44, 69, 169, 1, 1, 69, 62.1, 136, 2, ''),
+(187, 45, 39, 169, 1, 1, 39, 35.1, 137, 2, ''),
+(188, 45, 39, 169, 1, 1, 39, 35.1, 138, 2, ''),
+(189, 42, 345, 169, 1, 5, 69, 276, 139, 2, ''),
+(190, 42, 345, 169, 1, 5, 69, 276, 140, 2, ''),
+(191, 41, 150, 169, 1, 5, 30, 120, 141, 2, ''),
+(192, 35, 125, 159, 1, 1, 125, 100, 142, 2, ''),
+(193, 35, 125, 159, 1, 1, 125, 100, 143, 2, ''),
+(194, 45, 39, 169, 1, 1, 39, 35.1, 144, 2, ''),
+(195, 44, 69, 168, 1, 1, 69, 62.1, 145, 2, ''),
+(196, 45, 39, 169, 1, 1, 39, 35.1, 146, 2, ''),
+(197, 44, 69, 169, 1, 1, 69, 62.1, 147, 2, ''),
+(198, 43, 30, 169, 1, 1, 30, 27, 148, 2, ''),
+(199, 42, 345, 169, 1, 5, 69, 276, 149, 2, ''),
+(200, 42, 345, 169, 1, 5, 69, 276, 150, 2, ''),
+(201, 43, 30, 169, 1, 1, 30, 27, 151, 2, ''),
+(202, 44, 69, 169, 1, 1, 69, 62.1, 152, 2, ''),
+(203, 41, 150, 169, 1, 5, 30, 120, 153, 2, ''),
+(204, 44, 69, 170, 1, 1, 69, 62.1, 154, 2, ''),
+(205, 44, 69, 170, 1, 1, 69, 62.1, 155, 2, '');
 
 -- --------------------------------------------------------
 
@@ -284,31 +513,29 @@ CREATE TABLE `puchaseoder` (
   `storeId` int(11) NOT NULL,
   `puchaseoder_date` varchar(20) NOT NULL,
   `puoder_status_id` int(11) NOT NULL,
-  `puchaseoder_ttprice` decimal(10,2) DEFAULT NULL
+  `puchaseoder_ttprice` decimal(10,2) DEFAULT NULL,
+  `compostore_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `puchaseoder`
 --
 
-INSERT INTO `puchaseoder` (`puchaseoder_id`, `user_id`, `storeId`, `puchaseoder_date`, `puoder_status_id`, `puchaseoder_ttprice`) VALUES
-(37, 38, 96, '2024-08-03 10:38:38', 3, 39.00),
-(38, 38, 96, '2024-08-03 11:22:48', 1, 345.00),
-(39, 38, 96, '2024-08-04 01:29:08', 3, 345.00),
-(40, 38, 96, '2024-08-03 11:30:24', 3, NULL),
-(41, 38, 96, '2024-08-03 11:31:00', 2, NULL),
-(42, 38, 96, '2024-08-03 11:31:33', 3, 39.00),
-(43, 38, 96, '2024-08-03 12:54:09', 3, 39.00),
-(44, 34, 96, '2024-08-03 13:34:56', 3, 39.00),
-(46, 34, 95, '2024-08-03 14:55:20', 1, 125.00),
-(47, 34, 96, '2024-08-03 16:00:11', 1, 39.00),
-(48, 34, 96, '2024-08-03 16:10:05', 1, 345.00),
-(49, 38, 96, '2024-08-04 02:44:58', 3, 39.00),
-(50, 38, 96, '2024-08-04 02:47:41', 3, 35.10),
-(51, 38, 96, '2024-08-04 05:08:32', 1, 62.10),
-(52, 38, 96, '2024-08-04 08:56:13', 1, 62.10),
-(53, 38, 96, '2024-08-04 09:04:11', 1, 27.00),
-(54, 38, 96, '2024-08-04 09:31:49', 1, 27.00);
+INSERT INTO `puchaseoder` (`puchaseoder_id`, `user_id`, `storeId`, `puchaseoder_date`, `puoder_status_id`, `puchaseoder_ttprice`, `compostore_id`) VALUES
+(157, 38, 96, '2024-08-11 15:51:46', 2, 62.10, 0),
+(158, 34, 96, '2024-08-11 15:53:37', 3, 62.10, 14),
+(159, 38, 95, '2024-08-12 07:23:31', 1, 500.00, 0),
+(160, 38, 96, '2024-08-11 16:03:10', 2, 62.10, 13),
+(161, 38, 96, '2024-08-11 16:08:33', 2, 27.00, 20),
+(162, 38, 96, '2024-08-11 16:11:56', 3, 27.00, 14),
+(163, 38, 96, '2024-08-11 16:42:28', 3, 27.00, 0),
+(164, 38, 96, '2024-08-11 16:48:07', 2, 276.00, 20),
+(165, 38, 96, '2024-08-11 16:51:05', 3, 27.00, 0),
+(166, 38, 96, '2024-08-11 17:13:40', 3, 35.10, 14),
+(167, 38, 96, '2024-08-11 17:20:55', 2, 35.10, 0),
+(168, 34, 96, '2024-08-12 07:25:10', 2, 159.30, 0),
+(169, 38, 96, '2024-08-12 07:59:34', 3, 2000.70, 16),
+(170, 38, 96, '2024-08-12 08:06:15', 1, 124.20, 17);
 
 -- --------------------------------------------------------
 
@@ -440,7 +667,8 @@ CREATE TABLE `stores` (
 
 INSERT INTO `stores` (`storeId`, `user_id`, `logo`, `storeName`, `storeType`, `storeDes`, `style`, `province`, `phone`, `address`, `status`) VALUES
 (95, 33, 'logo-1720928717049-57959911.jpg', 'ชบาก๋วยเตี๋ยวเรือโคขุน', 2, 'เป็นร้านขายก๋วยเตียว โดยใช้เนื้อวัวที่มีคุณภาพที่สุด', 'รีเลศ', 'ยะลา', '0823017299', 'ร้าน เเถว ซอย ตือเบาะ', 2),
-(96, 36, 'logo-1722676879654-693054850.png', 'ก๋วยเตียวเนื้อโคขุน', 2, 'เป็นร้านอาหารตามสั่ง ที่สามารถตอบโจทย์ตามความต้องการขอลลูกค้าได้', 'รีเลศ', 'ยะลา', '0823017299', 'G8P3+C3C ตำบล สะเตงนอก อำเภอเมืองยะลา ยะลา 95000', 2);
+(96, 36, 'logo-1722676879654-693054850.png', 'ก๋วยเตียวเนื้อโคขุน', 2, 'เป็นร้านอาหารตามสั่ง ที่สามารถตอบโจทย์ตามความต้องการขอลลูกค้าได้', 'รีเลศ', 'ยะลา', '0823017299', 'G8P3+C3C ตำบล สะเตงนอก อำเภอเมืองยะลา ยะลา 95000', 2),
+(97, 39, 'logo-1723389659901-715925953.webp', 'hanafee', 1, 'เป็นร้านอาหารตามสั่ง ที่สามารถตอบโจทย์ตามความต้องการขอลลูกค้าได้', 'รีเลศ', 'ยะลา', '0823017299', '47/3 yala 95000\r\n-', 2);
 
 -- --------------------------------------------------------
 
@@ -490,7 +718,8 @@ INSERT INTO `users` (`user_id`, `referral_code`, `referred_by`, `username`, `ema
 (33, 'as1Nii3FJM', '', 'muhammadsamrees', '4064590015@yru.ac.th', '0123456789', 'มูฮัมหมัดซัมรี สะมะแอ', '47/3 yala 95000', '0823017299', 3),
 (34, 'K4ByGc4zw8', '', 'nima', '406459004@yru.ac.th', '0123456789', 'นิมะ มะยิ', '47/3 yala 95000', '0823017299', 2),
 (36, 'g7SzNZs6W0', 'as1Nii3FJM', 'imron', '40645900155@yru.ac.th', '0123456789', 'อิมรอน เเว', '47/3 yala 95000', '0823017299', 3),
-(38, '9J3eptwaJn', '', 'imrons', '406459028@yru.ac.th', '0123456789', 'อิมรอน วาเลาะ', '47/3 ถ.เทศบาล9 ต.สะเตง อ.เมืองยะลา จ.ยะลา 95000', '092548626', 2);
+(38, '9J3eptwaJn', '', 'imrons', '406459028@yru.ac.th', '0123456789', 'อิมรอน วาเลาะ', '47/3 ถ.เทศบาล9 ต.สะเตง อ.เมืองยะลา จ.ยะลา 95000', '092548626', 2),
+(39, 'VjA4dx7aDp', 'as1Nii3FJM', 'hanafee', 'hanafee@gmail.com', '0123456789', 'มูฮัมหมัดซัมรี สะมะแอ', '47/3 yala 95000', '0823017299', 3);
 
 -- --------------------------------------------------------
 
@@ -567,6 +796,26 @@ ALTER TABLE `basket_tb`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `compostore_tb`
+--
+ALTER TABLE `compostore_tb`
+  ADD PRIMARY KEY (`compostore_id`),
+  ADD KEY `compo_status_id` (`compo_status_id`),
+  ADD KEY `storeId` (`storeId`);
+
+--
+-- Indexes for table `compo_status_tb`
+--
+ALTER TABLE `compo_status_tb`
+  ADD PRIMARY KEY (`compo_status_id`);
+
+--
+-- Indexes for table `menu_data_tb`
+--
+ALTER TABLE `menu_data_tb`
+  ADD PRIMARY KEY (`menu_data_id`);
+
+--
 -- Indexes for table `menu_detail_tb`
 --
 ALTER TABLE `menu_detail_tb`
@@ -587,7 +836,8 @@ ALTER TABLE `oder_tb`
   ADD PRIMARY KEY (`oder_id`),
   ADD KEY `set_promotion_id` (`set_promotion_id`),
   ADD KEY `puchaseoder_id` (`puchaseoder_id`),
-  ADD KEY `purchasetype_id` (`purchasetype_id`);
+  ADD KEY `purchasetype_id` (`purchasetype_id`),
+  ADD KEY `menu_data_id` (`menu_data_id`);
 
 --
 -- Indexes for table `order_status_tb`
@@ -719,25 +969,43 @@ ALTER TABLE `valuegiven_tb`
 -- AUTO_INCREMENT for table `basket_tb`
 --
 ALTER TABLE `basket_tb`
-  MODIFY `basket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `basket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `compostore_tb`
+--
+ALTER TABLE `compostore_tb`
+  MODIFY `compostore_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `compo_status_tb`
+--
+ALTER TABLE `compo_status_tb`
+  MODIFY `compo_status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `menu_data_tb`
+--
+ALTER TABLE `menu_data_tb`
+  MODIFY `menu_data_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
 
 --
 -- AUTO_INCREMENT for table `menu_detail_tb`
 --
 ALTER TABLE `menu_detail_tb`
-  MODIFY `menu_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `menu_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `mulimagestb`
 --
 ALTER TABLE `mulimagestb`
-  MODIFY `mulimagesId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `mulimagesId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `oder_tb`
 --
 ALTER TABLE `oder_tb`
-  MODIFY `oder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `oder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=206;
 
 --
 -- AUTO_INCREMENT for table `order_status_tb`
@@ -773,7 +1041,7 @@ ALTER TABLE `promotion_type`
 -- AUTO_INCREMENT for table `puchaseoder`
 --
 ALTER TABLE `puchaseoder`
-  MODIFY `puchaseoder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `puchaseoder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
 
 --
 -- AUTO_INCREMENT for table `puchaseoder_status_tb`
@@ -809,7 +1077,7 @@ ALTER TABLE `status_pd_tb`
 -- AUTO_INCREMENT for table `stores`
 --
 ALTER TABLE `stores`
-  MODIFY `storeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `storeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `storetypetb`
@@ -821,7 +1089,7 @@ ALTER TABLE `storetypetb`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `user_types`
@@ -852,6 +1120,13 @@ ALTER TABLE `basket_tb`
   ADD CONSTRAINT `basket_tb_ibfk_1` FOREIGN KEY (`set_promotion_id`) REFERENCES `set_promotion_tb` (`set_promotion_id`),
   ADD CONSTRAINT `basket_tb_ibfk_2` FOREIGN KEY (`storeId`) REFERENCES `stores` (`storeId`),
   ADD CONSTRAINT `basket_tb_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `compostore_tb`
+--
+ALTER TABLE `compostore_tb`
+  ADD CONSTRAINT `compostore_tb_ibfk_1` FOREIGN KEY (`compo_status_id`) REFERENCES `compo_status_tb` (`compo_status_id`),
+  ADD CONSTRAINT `compostore_tb_ibfk_2` FOREIGN KEY (`storeId`) REFERENCES `stores` (`storeId`);
 
 --
 -- Constraints for table `menu_detail_tb`

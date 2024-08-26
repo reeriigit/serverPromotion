@@ -6,6 +6,78 @@ const router = express.Router();
 // Export a function that accepts the db connection
 module.exports = (db) => {
 
+  router.get('/promotion/order/:storeId', (req, res) => {
+    const storeId = req.params.storeId;
+  
+    const sql = `
+      SELECT 
+        o.set_promotion_id,
+        COUNT(*) AS count
+      FROM 
+        oder_tb o
+      JOIN 
+        puchaseoder p ON o.puchaseoder_id = p.puchaseoder_id
+      WHERE 
+        p.storeId = ?
+      GROUP BY 
+        o.set_promotion_id
+      ORDER BY 
+        count DESC
+    `;
+  
+    db.query(sql, [storeId], (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Server Error" });
+      }
+  
+      return res.json(result);
+    });
+  });
+  
+  
+
+  router.get("/orders/store/:storeId/date/:puchaseoder_date", (req, res) => {
+    const { storeId, puchaseoder_date } = req.params;
+
+    // Extract the date part (YYYY-MM-DD) from the provided date parameter
+    const formattedDate = puchaseoder_date.split('T')[0]; // Assuming puchaseoder_date format includes time
+
+    const sql = `
+      SELECT 
+        COUNT(oder_tb.oder_id) AS total_pro,
+        SUM(oder_tb.oder_amount) AS total_orders
+      FROM 
+        puchaseoder
+      JOIN 
+        oder_tb ON puchaseoder.puchaseoder_id = oder_tb.puchaseoder_id
+      WHERE 
+        puchaseoder.storeId = ?
+        AND puchaseoder.puchaseoder_date LIKE ?
+        AND puchaseoder.puoder_status_id = 3
+    `;
+
+    // Prepare the LIKE pattern to match the provided date
+    const likePattern = `${formattedDate}%`;
+
+    db.query(sql, [storeId, likePattern], (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Server Error" });
+      }
+
+      if (result.length > 0) {
+        return res.json({
+          total_pro: result[0].total_pro,
+          total_orders: result[0].total_orders,
+        });
+      } else {
+        return res.status(404).json({ message: "No orders found for this store on the specified date" });
+      }
+    });
+});
+
+
   router.put('/edit_puchaseoder/status/:puchaseoder_id', (req, res) => {
     const { puchaseoder_id } = req.params;
     const { puoder_status_id } = req.body;
@@ -261,6 +333,40 @@ router.get("/puchaseoder/store/:storeId/search/:q", (req, res) => {
       }
     });
   });
+  router.get("/puchaseoder/total/:storeId/date/:puchaseoder_date", (req, res) => {
+    const { storeId, puchaseoder_date } = req.params;
+  
+    // Extract the date part (YYYY-MM-DD) from the provided date parameter
+    const formattedDate = puchaseoder_date.split('T')[0]; // Assuming puchaseoder_date format includes time
+  
+    const sql = `
+      SELECT 
+        SUM(puchaseoder_ttprice) AS total_ttprice
+      FROM 
+        puchaseoder
+      WHERE 
+        storeId = ? 
+        AND puoder_status_id = 3
+        AND puchaseoder_date LIKE ?
+    `;
+  
+    // Prepare the LIKE pattern to match the provided date
+    const likePattern = `${formattedDate}%`;
+  
+    db.query(sql, [storeId, likePattern], (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Server Error" });
+      }
+  
+      if (result.length > 0 && result[0].total_ttprice !== null) {
+        return res.json({ total_ttprice: result[0].total_ttprice });
+      } else {
+        return res.status(404).json({ message: "No purchase orders found for this store with status 3 on the specified date" });
+      }
+    });
+  });
+  
   
 
   // Get a purchase order by ID
